@@ -1,0 +1,43 @@
+[*]
+[*] GTKWave Analyzer v3.3.100 (w)1999-2019 BSI
+[*] Sun Aug 30 16:50:33 2020
+[*]
+[dumpfile] "C:\Users\lin\Documents\GitHub\CIC_2014_grad\STI_DAC.vcd"
+[dumpfile_mtime] "Sun Aug 30 16:47:05 2020"
+[dumpfile_size] 370376
+[savefile] "C:\Users\lin\Documents\GitHub\CIC_2014_grad\STI_DAC.gtkw"
+[timestart] 16000
+[size] 1280 697
+[pos] -113 -90
+*-14.000000 35160 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] testfixture1.
+[sst_width] 197
+[signals_width] 174
+[sst_expanded] 1
+[sst_vpaned_height] 187
+@28
+testfixture1.u_rtl.clk
+testfixture1.u_rtl.reset
+testfixture1.u_rtl.load
+@c00024
+testfixture1.u_rtl.next_state[2:0]
+@28
+(0)testfixture1.u_rtl.next_state[2:0]
+(1)testfixture1.u_rtl.next_state[2:0]
+(2)testfixture1.u_rtl.next_state[2:0]
+@1401204
+-group_end
+@24
+testfixture1.u_rtl.current_state[2:0]
+@28
+testfixture1.u_rtl.pi_length[1:0]
+testfixture1.u_rtl.pi_msb
+testfixture1.u_rtl.pi_fill
+testfixture1.u_rtl.pi_low
+@23
+testfixture1.u_rtl.pi_data[15:0]
+@28
+testfixture1.u_rtl.so_valid
+testfixture1.u_rtl.so_data
+[pattern_trace] 1
+[pattern_trace] 0

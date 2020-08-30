@@ -121,9 +121,10 @@ integer c;
 reg so_pass, Real_so, so_exp;
 //------------- SPI module test ------------------------------------------------------------------------------------------------------------------------
 initial begin
-	$fsdbDumpfile("STI_DAC.fsdb");
-	$fsdbDumpvars;
-	
+	//$fsdbDumpfile("STI_DAC.fsdb");
+	//$fsdbDumpvars;
+	$dumpfile("STI_DAC.vcd");
+	$dumpvars;
       $display("--------------------------- [ testfixture2.v ] Simulation START !!---------------------------");
       $timeformat(-9, 1, " ns", 9); //Display time in nanoseconds
       

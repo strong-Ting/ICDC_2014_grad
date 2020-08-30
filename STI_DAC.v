@@ -15,10 +15,174 @@ output [4:0] oem_addr;
 output [7:0] oem_dataout;
 
 //==============================================================================
+reg so_data, so_valid;
+reg oem_finish, odd1_wr, odd2_wr, odd3_wr, odd4_wr, even1_wr, even2_wr, even3_wr, even4_wr;
+reg [4:0] oem_addr;
+reg [7:0] oem_dataout;
 
+reg [2:0] current_state,next_state;
+parameter IDLE = 3'd0;
+parameter LOAD = 3'd1;
+parameter SERIAL_OUT = 3'd2;
+parameter FINISH = 3'd3;
 
+reg [31:0] data_buffer;
+reg [4:0] serial_counter,pi_length_bit;
+//state switch
+always@(posedge clk or posedge reset)
+begin
+	if(reset) current_state <= IDLE;
+	else current_state <= next_state;
+end
 
+//next state logic
+always@(*)
+begin
+	case(current_state)
+	IDLE:
+	begin
+		if(load) next_state = LOAD;
+		else next_state = IDLE;
+	end
+	LOAD:
+	begin
+		next_state = SERIAL_OUT;
+	end
+	SERIAL_OUT:
+	begin
+		if(serial_counter == 4'd0) next_state = IDLE;
+		else next_state = SERIAL_OUT;
+	end
+	FINISH:
+	begin
+		next_state = FINISH;
+	end
+	default: next_state = IDLE;
+	endcase
+end
 
+//pi_length_bit
+always@(*)
+begin
+	case(pi_length)
+	2'b00: pi_length_bit = 5'd7;
+	2'b01: pi_length_bit = 5'd15; 
+	2'b10: pi_length_bit = 5'd23;
+	2'b11: pi_length_bit = 5'd31;
+	default: pi_length_bit = 5'd0;
+	endcase
+end
+
+//data_buffer 31 is MSB , 0 is LSB
+always@(*)
+begin
+	case(pi_length)
+	2'b00: //8bit
+	begin
+		if(pi_low) 
+		begin
+			data_buffer[31:24] = pi_data[15:8];
+			data_buffer[23:0] = 24'd0; //prevent latch
+		end
+		else
+		begin
+			data_buffer[31:24] = pi_data[7:0];
+			data_buffer[23:0] = 24'd0; //prevent latch
+		end
+	end
+	2'b01: //16bit
+	begin
+		data_buffer[31:16] = pi_data[15:0];
+		data_buffer[15:0] = 16'd0; //prevent latch
+	end
+	2'b10: //24bit
+	begin
+		if(pi_fill)
+		begin
+			data_buffer[31:16] = pi_data[15:0];
+			data_buffer[15:0] = 16'd0;
+		end
+		else 
+		begin
+			data_buffer[31:24] = 8'd0;
+			data_buffer[23:8] = pi_data[15:0];
+			data_buffer[7:0] = 8'd0; //prevent latch
+		end
+	end
+	2'b11: //32bit
+	begin
+		if(pi_fill)
+		begin
+			data_buffer[31:16] = pi_data[15:0];
+			data_buffer[15:0] = 16'd0;
+		end
+		else
+		begin
+			data_buffer[31:16] = 16'd0;
+			data_buffer[15:0] = pi_data[15:0];
+		end
+	end
+	default: data_buffer = 32'd0;
+	endcase
+end
+
+//serial_counter
+always@(posedge clk or posedge reset)
+begin
+	if(reset) serial_counter <= 5'd31;
+	else if(next_state == LOAD)
+	begin
+		case(pi_length)
+		2'b00: serial_counter <= 5'd7;
+		2'b01: serial_counter <= 5'd15; 
+		2'b10: serial_counter <= 5'd23;
+		2'b11: serial_counter <= 5'd31;
+		endcase
+	end
+	else if(current_state == SERIAL_OUT) serial_counter <= serial_counter - 4'd1;
+end
+
+//so_valid
+always@(posedge clk or posedge reset)
+begin
+	if(reset) so_valid <= 1'd0;
+	else if(next_state == SERIAL_OUT) so_valid <= 1'd1;
+	else so_valid <= 1'd0;
+end
+
+//data_buffer_index
+reg [4:0] data_buffer_index;
+always@(posedge clk or posedge reset)
+begin
+	if(reset) data_buffer_index = 5'd0;
+	else if(next_state == LOAD)
+	begin
+		if(pi_msb) data_buffer_index <= 5'd31;
+		else
+		begin
+			case(pi_length)
+			2'b00: data_buffer_index <= 5'd24;
+			2'b01: data_buffer_index <= 5'd16; 
+			2'b10: data_buffer_index <= 5'd8;
+			2'b11: data_buffer_index <= 5'd0;
+			endcase
+		end
+	end
+	else if(next_state == SERIAL_OUT)
+	begin
+		if(pi_msb) data_buffer_index <= data_buffer_index - 5'd1;
+		else data_buffer_index <= data_buffer_index + 5'd1;
+	end
+	
+	
+end
+
+//so_data
+always@(posedge clk or posedge reset)
+begin
+	if(reset) so_data <= 1'd0;
+	else so_data <= data_buffer[data_buffer_index];
+end
 
 
 
