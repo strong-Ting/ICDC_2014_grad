@@ -18,7 +18,7 @@ output [7:0] oem_dataout;
 reg so_data, so_valid;
 reg oem_finish, odd1_wr, odd2_wr, odd3_wr, odd4_wr, even1_wr, even2_wr, even3_wr, even4_wr;
 reg [4:0] oem_addr;
-reg [7:0] oem_dataout;
+wire [7:0] oem_dataout;
 
 reg [2:0] current_state,next_state;
 parameter IDLE = 3'd0;
@@ -184,6 +184,154 @@ begin
 	else so_data <= data_buffer[data_buffer_index];
 end
 
+//////////DAC////////
+reg [7:0] DAC_buffer;  
+reg [3:0] counter_16bit;
+reg [3:0] counter_16bit_delay_1clk;
+reg [7:0] mem_counter;
+reg odd_even;
 
+//odd_even
+always@(posedge clk or posedge reset)
+begin
+	if(reset) odd_even <= 1'd0;
+	else if(mem_counter[3:0] == 4'd7) odd_even <= 1'd1;
+	else if(mem_counter[3:0] == 4'd15) odd_even <= 1'd0;
+
+end
+
+
+always@(posedge clk or posedge reset)
+begin
+	if(reset) DAC_buffer <= 8'd0;
+	else if(so_valid)
+	begin
+		DAC_buffer <= DAC_buffer << 8'd1;
+		DAC_buffer[0] <= so_data; 
+	end
+end
+
+//cout 16bit
+always@(posedge clk or posedge reset)
+begin
+	if(reset) counter_16bit <= 4'd0;
+	else if(so_valid) counter_16bit <= counter_16bit + 4'd1;
+end
+
+//mem_counter
+always@(posedge clk or posedge reset)
+begin
+	if(reset) mem_counter <= 8'd0;
+	else if(counter_16bit == 4'd7 || counter_16bit == 4'd15) mem_counter <= mem_counter + 8'd1;
+end
+
+reg [4:0] delay_buffer;
+
+
+//oem_addr
+always@(posedge clk or posedge reset)
+begin
+	if(reset) delay_buffer <= 5'd0;
+	else if(counter_16bit == 4'd15) delay_buffer <= delay_buffer + 5'd1;
+end
+
+always@(posedge clk or posedge reset)
+begin
+	if(reset) oem_addr <= 5'd0;
+	else oem_addr <= delay_buffer;
+end
+
+//oem_dataout
+/*
+always@(posedge clk or posedge reset)
+begin
+	if(reset) oem_dataout <= 8'd0;
+	else if(counter_16bit == 4'd7 || counter_16bit == 4'd15) oem_dataout <= DAC_buffer;
+end*/
+assign oem_dataout = DAC_buffer;
+
+//ome_finish
+always@(posedge clk or posedge reset)
+begin
+	if(reset) oem_finish <= 1'd0;
+	else if(pi_end) oem_finish <= 1'd1;
+end
+
+//wr
+always@(posedge clk or posedge reset)
+begin
+	if(reset) odd1_wr <= 1'd0;
+	else if(mem_counter <= 8'd63 && counter_16bit == 4'd7 && odd_even == 1'd0) odd1_wr <= 1'd1;
+	else if(mem_counter <= 8'd63 && counter_16bit == 4'd15 && odd_even == 1'd1) odd1_wr <= 1'd1;
+	else odd1_wr <= 1'd0;
+end
+
+always@(posedge clk or posedge reset)
+begin
+	if(reset) even1_wr <= 1'd0;
+	else if(mem_counter <= 8'd63 && counter_16bit == 4'd15 && odd_even == 1'd0) even1_wr <= 1'd1;
+	else if(mem_counter <= 8'd63 && counter_16bit == 4'd7 && odd_even == 1'd1) even1_wr <= 1'd1;
+	else even1_wr <= 1'd0;
+end
+
+always@(posedge clk or posedge reset)
+begin
+	if(reset) odd2_wr <= 1'd0;
+	else if(mem_counter > 8'd63 && mem_counter<=8'd127 && counter_16bit == 4'd7)
+	begin
+		odd2_wr <= 1'd1;
+	end
+	else odd2_wr <= 1'd0;
+end
+
+always@(posedge clk or posedge reset)
+begin
+	if(reset) even2_wr <= 1'd0;
+	else if(mem_counter > 8'd63 && mem_counter<=8'd127 && counter_16bit == 4'd15)
+	begin
+		even2_wr <= 1'd1;
+	end
+	else even2_wr <= 1'd0;
+end
+
+always@(posedge clk or posedge reset)
+begin
+	if(reset) odd3_wr <= 1'd0;
+	else if(mem_counter > 8'd127 && mem_counter<=8'd191 && counter_16bit == 4'd7)
+	begin
+		odd3_wr <= 1'd1;
+	end
+	else odd3_wr <= 1'd0;
+end
+
+always@(posedge clk or posedge reset)
+begin
+	if(reset) even3_wr <= 1'd0;
+	else if(mem_counter > 8'd127 && mem_counter<=8'd191 && counter_16bit == 4'd15)
+	begin
+		even3_wr <= 1'd1;
+	end
+	else even3_wr <= 1'd0;
+end
+
+always@(posedge clk or posedge reset)
+begin
+	if(reset) odd4_wr <= 1'd0;
+	else if(mem_counter > 8'd191 && mem_counter<=8'd255 && counter_16bit == 4'd7)
+	begin
+		odd4_wr <= 1'd1;
+	end
+	else odd4_wr <= 1'd0;
+end
+
+always@(posedge clk or posedge reset)
+begin
+	if(reset) even4_wr <= 1'd0;
+	else if(mem_counter > 8'd191 && mem_counter<=8'd255 && counter_16bit == 4'd15)
+	begin
+		even4_wr <= 1'd1;
+	end
+	else even4_wr <= 1'd0;
+end
 
 endmodule
