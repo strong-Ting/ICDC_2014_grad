@@ -75,9 +75,9 @@ argv[3]=-v
 argv[4]=../../tsmc13_neg.v
 argv[5]=+define+SDF
 76 profile - 100
-          CPU/Mem usage: 0.010 sys,  0.030 user,  59.77M sys,  0.00M vm
+          CPU/Mem usage: 0.030 sys,  0.030 user,  59.79M sys,  0.00M vm
 77 VC callback profile - scalar:0 vector:0
-78 Thu Sep 17 15:25:27 2020
+78 Thu Sep 17 16:04:16 2020
 79 pliAppInit
 80 FSDB_GATE is disabled.
 81 Enable Parallel Dumping.

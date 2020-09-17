@@ -1,6 +1,6 @@
 `timescale 1ns/10ps
 `define SDFFILE    "./syn/STI_DAC_syn.sdf"    // Modify your sdf file name
-`define cycle 90
+`define cycle 40
 `define terminate_cycle 10000000
 
 module testfixture1;

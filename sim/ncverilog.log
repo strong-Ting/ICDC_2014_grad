@@ -1,5 +1,5 @@
 ncverilog: 15.20-s039: (c) Copyright 1995-2017 Cadence Design Systems, Inc.
-TOOL:	ncverilog	15.20-s039: Started on Sep 17, 2020 at 15:25:22 CST
+TOOL:	ncverilog	15.20-s039: Started on Sep 17, 2020 at 16:04:11 CST
 ncverilog
 	testfixture2.v
 	../syn/STI_DAC_syn.v
@@ -166,7 +166,7 @@ ncsim: *W,DVEXACC: some objects excluded from $dumpvars due to access restrictio
  \(^o^)/  The simulation result of OM-memory and EM-memory is PASS!!!
 
 ============================================================================
-Simulation complete via $finish(1) at time 193929500 PS + 0
+Simulation complete via $finish(1) at time 86192 NS + 0
 ./testfixture2.v:197      $finish;
 ncsim> exit
-TOOL:	ncverilog	15.20-s039: Exiting on Sep 17, 2020 at 15:25:27 CST  (total: 00:00:05)
+TOOL:	ncverilog	15.20-s039: Exiting on Sep 17, 2020 at 16:04:16 CST  (total: 00:00:05)

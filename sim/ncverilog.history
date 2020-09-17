@@ -11,3 +11,11 @@ s10(17Sep2020:15:24:20):  ncverilog testfixture1.v ../syn/STI_DAC_syn.v -v ../..
 s11(17Sep2020:15:24:45):  ncverilog testfixture1.v ../syn/STI_DAC_syn.v -v ../../tsmc13_neg.v +define+SDF 
 s12(17Sep2020:15:25:12):  ncverilog testfixture1.v ../syn/STI_DAC_syn.v -v ../../tsmc13_neg.v +define+SDF 
 s13(17Sep2020:15:25:22):  ncverilog testfixture2.v ../syn/STI_DAC_syn.v -v ../../tsmc13_neg.v +define+SDF 
+s14(17Sep2020:15:53:09):  ncverilog testfixture2.v ../syn/STI_DAC_syn.v -v ../../tsmc13_neg.v +define+SDF 
+s15(17Sep2020:15:53:36):  ncverilog testfixture1.v ../syn/STI_DAC_syn.v -v ../../tsmc13_neg.v +define+SDF 
+s16(17Sep2020:16:02:46):  ncverilog testfixture1.v ../syn/STI_DAC_syn.v -v ../../tsmc13_neg.v +define+SDF 
+s17(17Sep2020:16:03:01):  ncverilog testfixture1.v ../syn/STI_DAC_syn.v -v ../../tsmc13_neg.v +define+SDF 
+s18(17Sep2020:16:03:13):  ncverilog testfixture1.v ../syn/STI_DAC_syn.v -v ../../tsmc13_neg.v +define+SDF 
+s19(17Sep2020:16:03:37):  ncverilog testfixture1.v ../syn/STI_DAC_syn.v -v ../../tsmc13_neg.v +define+SDF 
+s20(17Sep2020:16:03:52):  ncverilog testfixture1.v ../syn/STI_DAC_syn.v -v ../../tsmc13_neg.v +define+SDF 
+s21(17Sep2020:16:04:11):  ncverilog testfixture2.v ../syn/STI_DAC_syn.v -v ../../tsmc13_neg.v +define+SDF 
