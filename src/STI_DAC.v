@@ -155,7 +155,7 @@ end
 reg [4:0] data_buffer_index;
 always@(posedge clk or posedge reset)
 begin
-	if(reset) data_buffer_index = 5'd0;
+	if(reset) data_buffer_index <= 5'd0;
 	else if(next_state == LOAD)
 	begin
 		if(pi_msb) data_buffer_index <= 5'd31;

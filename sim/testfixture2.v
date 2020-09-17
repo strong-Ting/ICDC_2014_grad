@@ -1,26 +1,26 @@
 `timescale 1ns/10ps
 `define SDFFILE    "./syn/STI_DAC_syn.sdf"    // Modify your sdf file name
-`define cycle 10
-`define terminate_cycle 100000
+`define cycle 90
+`define terminate_cycle 10000000
 
-module testfixture1;
+module testfixture2;
 
 
 
-	`define Pattern "./dat/Pattern.dat"
-	`define Stimulus "./dat/Stimulus.dat"
-	`define Expected "./dat/Expected_so.dat"
-	`define Pat_num 99
-	`define Exp_num 1871
-	`define Pixel "./dat/Expected_pixel.dat"
-	`define odd1 "./dat/Expected_odd_1.dat"
-	`define odd2 "./dat/Expected_odd_2.dat"
-	`define odd3 "./dat/Expected_odd_3.dat"
-	`define odd4 "./dat/Expected_odd_4.dat" 
-	`define even1 "./dat/Expected_even_1.dat"
-	`define even2 "./dat/Expected_even_2.dat"
-	`define even3 "./dat/Expected_even_3.dat"
-	`define even4 "./dat/Expected_even_4.dat"
+	`define Pattern "./dat/Pattern2.dat"
+	`define Stimulus "./dat/Stimulus2.dat"
+	`define Expected "./dat/Expected2_so.dat"
+	`define Pat_num 34
+	`define Exp_num 767
+	`define Pixel "./dat/Expected2_pixel.dat"
+	`define odd1 "./dat/Expected2_odd_1.dat"
+	`define odd2 "./dat/Expected2_odd_2.dat"
+	`define odd3 "./dat/Expected2_odd_3.dat"
+	`define odd4 "./dat/Expected2_odd_4.dat" 
+	`define even1 "./dat/Expected2_even_1.dat"
+	`define even2 "./dat/Expected2_even_2.dat"
+	`define even3 "./dat/Expected2_even_3.dat"
+	`define even4 "./dat/Expected2_even_4.dat"
 
 
 
@@ -125,7 +125,7 @@ initial begin
 	//$fsdbDumpvars;
 	$dumpfile("STI_DAC.vcd");
 	$dumpvars;
-      $display("--------------------------- [ testfuxture1.v ] Simulation START !!---------------------------");
+      $display("--------------------------- [ testfixture2.v ] Simulation START !!---------------------------");
       $timeformat(-9, 1, " ns", 9); //Display time in nanoseconds
       
       err_cnt = 0;   
@@ -140,7 +140,7 @@ initial begin
       reset = 0; 
       i = 0;
       
-        $display("--------------------------- Simulation at parallel data input stage !!---------------------------");
+        $display("--------------------------- Simulation at parallel data input stage  !!---------------------------");
 	for (k = 0; k <= `Pat_num; k = k+1)
 	begin      
 		
@@ -250,7 +250,7 @@ initial begin
 		if (Exp_even04[ee4] == EVEN4_MEM[ee4]);
 		else begin
 			ee4_err = ee4_err + 1;
-			$display("---------- ERROR AT %t,  ERROR DATA : the real data  at EVEN4_MEM address %d = %h, but the EXPECTED DATA  is %h\n",
+			$display("---------- ERROR AT %t,  ERROR DATA : the real data at EVEN4_MEM address %d = %h, but the EXPECTED DATA  = %h\n",
 			$realtime, ee4, EVEN4_MEM[ee4], Exp_even04[ee4]);
 		end
 	end
@@ -263,7 +263,7 @@ initial begin
 		if (Exp_even03[ee3] == EVEN3_MEM[ee3]);
 		else begin
 			ee3_err = ee3_err + 1;
-			$display("---------- ERROR AT %t,  ERROR DATA : the real data at EVEN3_MEM address %d = %h, but the EXPECTED DATA  is %h\n",
+			$display("---------- ERROR AT %t,  ERROR DATA : the real data at EVEN3_MEM address %d = %h, but the EXPECTED DATA  = %h\n",
 			$realtime, ee3, EVEN3_MEM[ee3], Exp_even03[ee3]);
 		end
 	end
@@ -276,7 +276,7 @@ initial begin
 		if (Exp_even02[ee2] == EVEN2_MEM[ee2]);
 		else begin
 			ee2_err = ee2_err + 1;
-			$display("---------- ERROR AT %t,  ERROR DATA : the real data at EVEN2_MEM address %d = %h, but the EXPECTED DATA  is %h\n",
+			$display("---------- ERROR AT %t,  ERROR DATA : the real data at EVEN2_MEM address %d = %h, but the EXPECTED DATA  = %h\n",
 			$realtime, ee2, EVEN2_MEM[ee2], Exp_even02[ee2]);
 		end
 	end
@@ -289,7 +289,7 @@ initial begin
 		if (Exp_even01[ee1] == EVEN1_MEM[ee1]);
 		else begin
 			ee1_err = ee1_err + 1;
-			$display("---------- ERROR AT %t,  ERROR DATA : the real data at EVEN1_MEM address %d = %h, but the EXPECTED DATA  is %h\n",
+			$display("---------- ERROR AT %t,  ERROR DATA : the real data at EVEN1_MEM address %d = %h, but the EXPECTED DATA  = %h\n",
 			$realtime, ee1, EVEN1_MEM[ee1], Exp_even01[ee1]);
 		end
 	end
@@ -304,7 +304,7 @@ initial begin
 		if (Exp_odd04[oo4] == ODD4_MEM[oo4]);
 		else begin
 			oo4_err = oo4_err + 1;
-			$display("---------- ERROR AT %t,  ERROR DATA : the real data at ODD4_MEM address %d = %h, but the EXPECTED DATA  is %h\n",
+			$display("---------- ERROR AT %t,  ERROR DATA : the real data at ODD4_MEM address %d = %h, but the EXPECTED DATA  = %h\n",
 			$realtime, oo4, ODD4_MEM[oo4], Exp_odd04[oo4]);
 		end
 	end
@@ -330,7 +330,7 @@ initial begin
 		if (Exp_odd02[oo2] == ODD2_MEM[oo2]);
 		else begin
 			oo2_err = oo2_err + 1;
-			$display("---------- ERROR AT %t,  ERROR DATA : the real data at ODD2_MEM address %d = %h, but the EXPECTED DATA  is %h\n",
+			$display("---------- ERROR AT %t,  ERROR DATA : the real data at ODD2_MEM address %d = %h, but the EXPECTED DATA  = %h\n",
 			$realtime, oo2, ODD2_MEM[oo2], Exp_odd02[oo2]);
 		end
 	end
@@ -343,7 +343,7 @@ initial begin
 		if (Exp_odd01[oo1] == ODD1_MEM[oo1]);
 		else begin
 			oo1_err = oo1_err + 1;
-			$display("---------- ERROR AT %t,  ERROR DATA : the real data at ODD1_MEM address %d = %h, but the EXPECTED DATA  is %h\n",
+			$display("---------- ERROR AT %t,  ERROR DATA : the real data at ODD1_MEM address %d = %h, but the EXPECTED DATA  = %h\n",
 			$realtime, oo1, ODD1_MEM[oo1], Exp_odd01[oo1]);
 		end
 	end
