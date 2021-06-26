@@ -6,7 +6,7 @@ Report : timing
         -max_paths 1
 Design : STI_DAC
 Version: Q-2019.12
-Date   : Thu Sep 17 15:19:58 2020
+Date   : Thu Jun 17 14:04:12 2021
 ****************************************
 
 Operating Conditions: slow   Library: slow

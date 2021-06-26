@@ -1,7 +1,7 @@
 (DELAYFILE
 (SDFVERSION "OVI 2.1")
 (DESIGN "STI_DAC")
-(DATE "Thu Sep 17 15:19:58 2020")
+(DATE "Thu Jun 17 14:04:12 2021")
 (VENDOR "slow")
 (PROGRAM "Synopsys Design Compiler cmos")
 (VERSION "Q-2019.12")
